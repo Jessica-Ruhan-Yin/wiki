@@ -1,5 +1,6 @@
 package com.jess.wiki.controller;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +17,11 @@ import java.util.Map;
 // @Controller返回页面
 public class TestController {
 
+    //取自定义配置项的值
+    //默认值：@Value("${test.hello:TEST}")
+    @Value("${test.hello}")
+    private String testHello;
+
     /**
      * 请求方式：GET POST PUT DELETE
      * RequestMapping表示接受所有方式的请求
@@ -23,7 +29,7 @@ public class TestController {
      */
     @GetMapping("/hello")
     public String hello(){
-        return "Hello World!";
+        return "Hello World!" + testHello;
     }
 
     @PostMapping("/hello/post")
