@@ -1,10 +1,14 @@
 package com.jess.wiki.controller;
 
+import com.jess.wiki.domain.Test;
+import com.jess.wiki.service.TestService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,6 +20,9 @@ import java.util.Map;
 @RestController //返回字符串 RestController = Controller + ResponseBody
 // @Controller返回页面
 public class TestController {
+
+    @Resource
+    private TestService testService;
 
     //取自定义配置项的值
     //默认值：@Value("${test.hello:TEST}")
@@ -35,5 +42,10 @@ public class TestController {
     @PostMapping("/hello/post")
     public String helloPost(String name){
         return "Hello World! Post" + name;
+    }
+
+    @GetMapping("/test/list")
+    public List<Test> list(){
+       return testService.list();
     }
 }
