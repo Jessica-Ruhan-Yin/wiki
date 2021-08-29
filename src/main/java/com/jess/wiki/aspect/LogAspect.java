@@ -2,6 +2,8 @@ package com.jess.wiki.aspect;
 
 //import com.alibaba.fastjson.JSONObject;
 //import com.alibaba.fastjson.support.spring.PropertyPreFilters;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.support.spring.PropertyPreFilters;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -60,12 +62,12 @@ public class LogAspect {
             }
             arguments[i] = args[i];
         }
-//        // 排除字段，敏感字段或太长的字段不显示
-//        String[] excludeProperties = {"password", "file"};
-//        PropertyPreFilters filters = new PropertyPreFilters();
-//        PropertyPreFilters.MySimplePropertyPreFilter excludefilter = filters.addFilter();
-//        excludefilter.addExcludes(excludeProperties);
-//        LOG.info("请求参数: {}", JSONObject.toJSONString(arguments, excludefilter));
+        // 排除字段，敏感字段或太长的字段不显示
+        String[] excludeProperties = {"password", "file"};
+        PropertyPreFilters filters = new PropertyPreFilters();
+        PropertyPreFilters.MySimplePropertyPreFilter excludefilter = filters.addFilter();
+        excludefilter.addExcludes(excludeProperties);
+        LOG.info("请求参数: {}", JSONObject.toJSONString(arguments, excludefilter));
     }
 
     @Around("controllerPointcut()")
@@ -73,12 +75,12 @@ public class LogAspect {
         long startTime = System.currentTimeMillis();
         Object result = proceedingJoinPoint.proceed();
 //        // 排除字段，敏感字段或太长的字段不显示
-//        String[] excludeProperties = {"password", "file"};
-//        PropertyPreFilters filters = new PropertyPreFilters();
-//        PropertyPreFilters.MySimplePropertyPreFilter excludefilter = filters.addFilter();
-//        excludefilter.addExcludes(excludeProperties);
-//        LOG.info("返回结果: {}", JSONObject.toJSONString(result, excludefilter));
-//        LOG.info("------------- 结束 耗时：{} ms -------------", System.currentTimeMillis() - startTime);
+        String[] excludeProperties = {"password", "file"};
+        PropertyPreFilters filters = new PropertyPreFilters();
+        PropertyPreFilters.MySimplePropertyPreFilter excludefilter = filters.addFilter();
+        excludefilter.addExcludes(excludeProperties);
+        LOG.info("返回结果: {}", JSONObject.toJSONString(result, excludefilter));
+        LOG.info("------------- 结束 耗时：{} ms -------------", System.currentTimeMillis() - startTime);
         return result;
     }
 
