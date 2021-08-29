@@ -7,6 +7,7 @@ import com.jess.wiki.domain.EbookExample;
 import com.jess.wiki.mapper.EbookMapper;
 import com.jess.wiki.req.EbookReq;
 import com.jess.wiki.resp.EbookResp;
+import com.jess.wiki.resp.PageResp;
 import com.jess.wiki.util.CopyUtil;
 import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
@@ -31,7 +32,7 @@ public class EbookService {
     @Resource
     private EbookMapper ebookMapper;
 
-    public List<EbookResp> list(EbookReq req) {
+    public PageResp<EbookResp> list(EbookReq req) {
 
         EbookExample ebookExample = new EbookExample();
         EbookExample.Criteria criteria = ebookExample.createCriteria();
@@ -39,7 +40,7 @@ public class EbookService {
             criteria.andNameLike("%" + req.getName() + "%");
         }
 
-        PageHelper.startPage(1, 3);//支持分页
+        PageHelper.startPage(req.getPage(), req.getSize());//支持分页
         List<Ebook> ebookList = ebookMapper.selectByExample(ebookExample);
 
         PageInfo<Ebook> pageInfo = new PageInfo<>(ebookList);
@@ -53,9 +54,13 @@ public class EbookService {
 //            respList.add(ebookResp);
 //        }
 
+
         //工具类列表复制代替循环
         List<EbookResp> list = CopyUtil.copyList(ebookList, EbookResp.class);
-        return list;
+        PageResp<EbookResp> pageResp = new PageResp<>();
+        pageResp.setTotal(pageInfo.getTotal());
+        pageResp.setList(list);
+        return pageResp;
     }
 
 }
