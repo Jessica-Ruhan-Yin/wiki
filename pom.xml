@@ -45,15 +45,16 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.25</version>
         </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.8.9</version>
+        </dependency>
 
     </dependencies>
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
             <!-- mybatis generator 自动生成代码插件 -->
             <plugin>
                 <groupId>org.mybatis.generator</groupId>
@@ -70,6 +71,19 @@
                         <artifactId>mysql-connector-java</artifactId>
                         <version>8.0.22</version>
                     </dependency>
+
+                    <dependency>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-aop</artifactId>
+                    </dependency>
+
+                    <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+                    <dependency>
+                        <groupId>com.alibaba</groupId>
+                        <artifactId>fastjson</artifactId>
+                        <version>1.2.78</version>
+                    </dependency>
+
                 </dependencies>
             </plugin>
         </plugins>
