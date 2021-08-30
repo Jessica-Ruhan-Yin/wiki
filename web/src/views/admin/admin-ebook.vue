@@ -3,6 +3,11 @@
     <a-layout-content
         :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"
     >
+      <p>
+        <a-button type="primary" @click="add()" size="large">
+          新增
+        </a-button>
+      </p>
       <a-table
           :columns="columns"
           :row-key="record => record.id"
@@ -27,6 +32,7 @@
       </a-table>
     </a-layout-content>
   </a-layout>
+
   <a-modal
       title="电子书表单"
       v-model:visible="modalVisible"
@@ -52,7 +58,6 @@
     </a-form>
   </a-modal>
 </template>
-
 
 <script lang="ts">
 import {defineComponent, onMounted, ref} from 'vue';
@@ -146,15 +151,15 @@ export default defineComponent({
     const handleModalOk = () => {
       modalLoading.value = true;
       axios.post("/ebook/save", ebook.value).then((response) => {
-        const data = response.data;
-        if (data.success) { //data=commonResp
+        const data = response.data; // data = commonResp
+        if (data.success) {
           modalVisible.value = false;
           modalLoading.value = false;
 
-          //重新加载列表
+          // 重新加载列表
           handleQuery({
             page: pagination.value.current,
-            size: pagination.value.pageSize
+            size: pagination.value.pageSize,
           });
         }
       });
@@ -165,14 +170,21 @@ export default defineComponent({
      */
     const edit = (record: any) => {
       modalVisible.value = true;
-      ebook.value = record;
+      ebook.value = record
     };
 
+    /**
+     * 新增
+     */
+    const add = () => {
+      modalVisible.value = true;
+      ebook.value = {};
+    };
 
     onMounted(() => {
       handleQuery({
         page: 1,
-        size: pagination.value.pageSize
+        size: pagination.value.pageSize,
       });
     });
 
@@ -184,6 +196,7 @@ export default defineComponent({
       handleTableChange,
 
       edit,
+      add,
 
       ebook,
       modalVisible,

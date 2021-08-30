@@ -10,6 +10,7 @@ import com.jess.wiki.req.EbookSaveReq;
 import com.jess.wiki.resp.EbookResp;
 import com.jess.wiki.resp.PageResp;
 import com.jess.wiki.util.CopyUtil;
+import com.jess.wiki.util.SnowFlake;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,9 @@ public class EbookService {
 
     @Resource
     private EbookMapper ebookMapper;
+
+    @Resource
+    private SnowFlake snowFlake;
 
     public PageResp<EbookResp> list(EbookQueryReq req) {
 
@@ -65,16 +69,17 @@ public class EbookService {
 
 
     /**
-     *
-     * @param req
+     * 保存数据
      */
-    public void save(EbookSaveReq req){
-        Ebook ebook = CopyUtil.copy(req,Ebook.class);
-        if(ObjectUtils.isEmpty(req.getId())){
-            //add
+    public void save(EbookSaveReq req) {
+        Ebook ebook = CopyUtil.copy(req, Ebook.class);
+        if (ObjectUtils.isEmpty(req.getId())) {
+            //新增
+            //自动生成id的方法：自增/uuid/雪花算法
+            ebook.setId(snowFlake.nextId());
             ebookMapper.insert(ebook);
-        }else{
-            //update
+        } else {
+            //更新
             ebookMapper.updateByPrimaryKey(ebook);
         }
 
