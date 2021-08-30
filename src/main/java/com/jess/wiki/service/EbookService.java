@@ -7,7 +7,7 @@ import com.jess.wiki.domain.EbookExample;
 import com.jess.wiki.mapper.EbookMapper;
 import com.jess.wiki.req.EbookQueryReq;
 import com.jess.wiki.req.EbookSaveReq;
-import com.jess.wiki.resp.EbookResp;
+import com.jess.wiki.resp.EbookQueryResp;
 import com.jess.wiki.resp.PageResp;
 import com.jess.wiki.util.CopyUtil;
 import com.jess.wiki.util.SnowFlake;
@@ -36,53 +36,55 @@ public class EbookService {
     @Resource
     private SnowFlake snowFlake;
 
-    public PageResp<EbookResp> list(EbookQueryReq req) {
-
+    public PageResp<EbookQueryResp> list(EbookQueryReq req) {
         EbookExample ebookExample = new EbookExample();
         EbookExample.Criteria criteria = ebookExample.createCriteria();
         if (!ObjectUtils.isEmpty(req.getName())) {
             criteria.andNameLike("%" + req.getName() + "%");
         }
-
-        PageHelper.startPage(req.getPage(), req.getSize());//支持分页
+        PageHelper.startPage(req.getPage(), req.getSize());
         List<Ebook> ebookList = ebookMapper.selectByExample(ebookExample);
 
         PageInfo<Ebook> pageInfo = new PageInfo<>(ebookList);
         LOG.info("总行数：{}", pageInfo.getTotal());
         LOG.info("总页数：{}", pageInfo.getPages());
 
-//        List<EbookResp> respList = new ArrayList<>();
-//        for (Ebook ebook : ebookList) {
-//            //单个复制
-//            EbookResp ebookResp = CopyUtil.copy(ebook, EbookResp.class);
-//            respList.add(ebookResp);
-//        }
+        // List<EbookResp> respList = new ArrayList<>();
+        // for (Ebook ebook : ebookList) {
+        //     // EbookResp ebookResp = new EbookResp();
+        //     // BeanUtils.copyProperties(ebook, ebookResp);
+        //     // 对象复制
+        //     EbookResp ebookResp = CopyUtil.copy(ebook, EbookResp.class);
+        //
+        //     respList.add(ebookResp);
+        // }
 
+        // 列表复制
+        List<EbookQueryResp> list = CopyUtil.copyList(ebookList, EbookQueryResp.class);
 
-        //工具类列表复制代替循环
-        List<EbookResp> list = CopyUtil.copyList(ebookList, EbookResp.class);
-        PageResp<EbookResp> pageResp = new PageResp<>();
+        PageResp<EbookQueryResp> pageResp = new PageResp();
         pageResp.setTotal(pageInfo.getTotal());
         pageResp.setList(list);
+
         return pageResp;
     }
 
-
     /**
-     * 保存数据
+     * 保存
      */
     public void save(EbookSaveReq req) {
         Ebook ebook = CopyUtil.copy(req, Ebook.class);
         if (ObjectUtils.isEmpty(req.getId())) {
-            //新增
-            //自动生成id的方法：自增/uuid/雪花算法
+            // 新增
             ebook.setId(snowFlake.nextId());
             ebookMapper.insert(ebook);
         } else {
-            //更新
+            // 更新
             ebookMapper.updateByPrimaryKey(ebook);
         }
-
     }
 
+    public void delete(Long id){
+        ebookMapper.deleteByPrimaryKey(id);
+    }
 }
