@@ -89,7 +89,7 @@ export default defineComponent({
       axios.get("/ebook/list",{
         params:{
           page:1,
-          size:100
+          size:1000
         }
       }).then((response) => {
         const data = response.data;
