@@ -1,6 +1,7 @@
 package com.jess.wiki.req;
 
 public class PageReq{
+
     private int page;
 
     private int size;

@@ -9,7 +9,6 @@ import com.jess.wiki.req.EbookReq;
 import com.jess.wiki.resp.EbookResp;
 import com.jess.wiki.resp.PageResp;
 import com.jess.wiki.util.CopyUtil;
-import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
