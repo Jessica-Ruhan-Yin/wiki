@@ -5,7 +5,8 @@ import com.github.pagehelper.PageInfo;
 import com.jess.wiki.domain.Ebook;
 import com.jess.wiki.domain.EbookExample;
 import com.jess.wiki.mapper.EbookMapper;
-import com.jess.wiki.req.EbookReq;
+import com.jess.wiki.req.EbookQueryReq;
+import com.jess.wiki.req.EbookSaveReq;
 import com.jess.wiki.resp.EbookResp;
 import com.jess.wiki.resp.PageResp;
 import com.jess.wiki.util.CopyUtil;
@@ -31,7 +32,7 @@ public class EbookService {
     @Resource
     private EbookMapper ebookMapper;
 
-    public PageResp<EbookResp> list(EbookReq req) {
+    public PageResp<EbookResp> list(EbookQueryReq req) {
 
         EbookExample ebookExample = new EbookExample();
         EbookExample.Criteria criteria = ebookExample.createCriteria();
@@ -60,6 +61,23 @@ public class EbookService {
         pageResp.setTotal(pageInfo.getTotal());
         pageResp.setList(list);
         return pageResp;
+    }
+
+
+    /**
+     *
+     * @param req
+     */
+    public void save(EbookSaveReq req){
+        Ebook ebook = CopyUtil.copy(req,Ebook.class);
+        if(ObjectUtils.isEmpty(req.getId())){
+            //add
+            ebookMapper.insert(ebook);
+        }else{
+            //update
+            ebookMapper.updateByPrimaryKey(ebook);
+        }
+
     }
 
 }
