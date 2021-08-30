@@ -12,11 +12,11 @@
           @change="handleTableChange"
       >
         <template #cover="{ text: cover }">
-          <img v-if="cover" :src="cover" alt="avatar" />
+          <img v-if="cover" :src="cover" alt="avatar"/>
         </template>
         <template v-slot:action="{ text, record }">
           <a-space size="small">
-            <a-button type="primary">
+            <a-button type="primary" @click="edit">
               编辑
             </a-button>
             <a-button type="danger">
@@ -27,10 +27,19 @@
       </a-table>
     </a-layout-content>
   </a-layout>
+  <a-modal
+      title="电子书表单"
+      v-model:visible="modalVisible"
+      :confirm-loading="modalLoading"
+      @ok="handleModalOk"
+  >
+    <p>test</p>
+  </a-modal>
 </template>
 
+
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue';
+import {defineComponent, onMounted, ref} from 'vue';
 import axios from 'axios';
 
 export default defineComponent({
@@ -48,7 +57,7 @@ export default defineComponent({
       {
         title: '封面',
         dataIndex: 'cover',
-        slots: { customRender: 'cover' }
+        slots: {customRender: 'cover'}
       },
       {
         title: '名称',
@@ -78,7 +87,7 @@ export default defineComponent({
       {
         title: 'Action',
         key: 'action',
-        slots: { customRender: 'action' }
+        slots: {customRender: 'action'}
       }
     ];
 
@@ -88,9 +97,9 @@ export default defineComponent({
     const handleQuery = (params: any) => {
       loading.value = true;
       axios.get("/ebook/list", {
-        params:{
-          page:params.page,
-          size:params.size
+        params: {
+          page: params.page,
+          size: params.size
         }
       }).then((response) => {
         loading.value = false;
@@ -114,10 +123,29 @@ export default defineComponent({
       });
     };
 
+    // -------- 表单 ---------
+    const modalVisible = ref(false);
+    const modalLoading = ref(false);
+    const handleModalOk = () => {
+      modalLoading.value = true;
+      setTimeout(() => {
+        modalVisible.value = false;
+        modalLoading.value = false;
+      }, 2000);
+    };
+
+    /**
+     * 编辑
+     */
+    const edit = () => {
+      modalVisible.value = true;
+    };
+
+
     onMounted(() => {
       handleQuery({
-        page:1,
-        size:pagination.value.pageSize
+        page: 1,
+        size: pagination.value.pageSize
       });
     });
 
@@ -126,7 +154,13 @@ export default defineComponent({
       pagination,
       columns,
       loading,
-      handleTableChange
+      handleTableChange,
+
+      edit,
+
+      modalVisible,
+      modalLoading,
+      handleModalOk
     }
   }
 });
