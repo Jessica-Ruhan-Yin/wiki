@@ -20,12 +20,12 @@
       <a-table
           :columns="columns"
           :row-key="record => record.id"
-          :data-source="categorys"
+          :data-source="level1"
           :loading="loading"
           :pagination="false"
       >
         <template #cover="{ text: cover }">
-          <img v-if="cover" :src="cover" alt="avatar"/>
+          <img v-if="cover" :src="cover" alt="avatar" />
         </template>
         <template v-slot:action="{ text, record }">
           <a-space size="small">
@@ -56,22 +56,22 @@
   >
     <a-form :model="category" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
       <a-form-item label="名称">
-        <a-input v-model:value="category.name"/>
+        <a-input v-model:value="category.name" />
       </a-form-item>
       <a-form-item label="父分类">
-        <a-input v-model:value="category.parent"/>
+        <a-input v-model:value="category.parent" />
       </a-form-item>
       <a-form-item label="顺序">
-        <a-input v-model:value="category.sort"/>
+        <a-input v-model:value="category.sort" />
       </a-form-item>
     </a-form>
   </a-modal>
 </template>
 
 <script lang="ts">
-import {defineComponent, onMounted, ref} from 'vue';
+import { defineComponent, onMounted, ref } from 'vue';
 import axios from 'axios';
-import {message} from 'ant-design-vue';
+import { message } from 'ant-design-vue';
 import {Tool} from "@/util/tool";
 
 export default defineComponent({
@@ -99,9 +99,22 @@ export default defineComponent({
       {
         title: 'Action',
         key: 'action',
-        slots: {customRender: 'action'}
+        slots: { customRender: 'action' }
       }
     ];
+
+    /**
+     * 一级分类树，children属性就是二级分类
+     * [{
+     *   id: "",
+     *   name: "",
+     *   children: [{
+     *     id: "",
+     *     name: "",
+     *   }]
+     * }]
+     */
+    const level1 = ref(); // 一级分类树，children属性就是二级分类
 
     /**
      * 数据查询
@@ -113,6 +126,11 @@ export default defineComponent({
         const data = response.data;
         if (data.success) {
           categorys.value = data.content;
+          console.log("原始数组：", categorys.value);
+
+          level1.value = [];
+          level1.value = Tool.array2Tree(categorys.value, 0);
+          console.log("树形结构：", level1);
         } else {
           message.error(data.message);
         }
@@ -171,7 +189,8 @@ export default defineComponent({
 
     return {
       param,
-      categorys,
+      // categorys,
+      level1,
       columns,
       loading,
       handleQuery,
