@@ -21,6 +21,14 @@
           </a-form-item>
         </a-form>
       </p>
+      <!--      <a-table-->
+      <!--          :columns="columns" 定义列-->
+      <!--          :row-key="record => record.id" 每一行定义一个key-->
+      <!--          :data-source="ebooks" 数据源是ebooks表格-->
+      <!--          :pagination="pagination" 分页定义变量-->
+      <!--          :loading="loading" 等待框，如果为true就呈现等待的效果-->
+      <!--          @change="handleTableChange" 点击分页时会执行的方法-->
+      <!--      >-->
       <a-table
           :columns="columns"
           :row-key="record => record.id"
@@ -29,6 +37,7 @@
           :loading="loading"
           @change="handleTableChange"
       >
+        <!--定义渲染-->
         <template #cover="{ text: cover }">
           <img v-if="cover" :src="cover" alt="avatar"/>
         </template>
@@ -36,7 +45,7 @@
           <span>{{ getCategoryName(record.category1Id) }}/{{ getCategoryName(record.category2Id) }}</span>
         </template>
         <template v-slot:action="{ text, record }">
-          <a-space size="small">
+          <a-space size="small"> <!--空格组件，两个button之间要有空格-->
             <a-button type="primary" @click="edit(record)">
               编辑
             </a-button>
@@ -136,7 +145,7 @@ export default defineComponent({
     ];
 
     /**
-     * 数据查询
+     * 数据查询方法
      **/
     const handleQuery = (params: any) => {
       loading.value = true;
@@ -196,6 +205,8 @@ export default defineComponent({
           handleQuery({
             page: pagination.value.current,
             size: pagination.value.pageSize,
+          //  前面的page和size是传回后端的参数，必须和后端pageReq对应
+          //  后面的current和pageSize是pagination的属性名
           });
         } else {
           message.error(data.message);

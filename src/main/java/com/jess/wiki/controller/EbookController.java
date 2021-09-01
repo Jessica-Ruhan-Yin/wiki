@@ -32,6 +32,7 @@ public class EbookController {
         return resp;
     }
 
+    //post请求，json方式的提交 需要增加@RequestBody注解才可以接收到
     @PostMapping("/save")
     public CommonResp save(@Valid @RequestBody EbookSaveReq req) {
         CommonResp resp = new CommonResp<>();
