@@ -264,6 +264,19 @@ export default defineComponent({
       }
     }
 
+    /**
+     * 内容查询
+     **/
+    const handleQueryContent = () => {
+      axios.get("/doc/find-content" + doc.value.id).then((response) => {
+        const data = response.data;
+        if (data.success) {
+          editor.txt.html(data.content)
+        } else {
+          message.error(data.message);
+        }
+      });
+    };
 
     /**
      * 编辑
@@ -271,6 +284,7 @@ export default defineComponent({
     const edit = (record: any) => {
       modalVisible.value = true;
       doc.value = Tool.copy(record);
+      handleQueryContent();
 
       //不能选择当前节点及其子孙节点作为父节点，否则在递归算法中会使树断开
       treeSelectData.value = Tool.copy(level1.value);
