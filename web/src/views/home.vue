@@ -6,7 +6,7 @@
           :style="{ height: '100%', borderRight: 0 }"
           @click="handleClick"
       >
-        <a-menu-item key="welcome">
+        <a-menu-item key="wel">
           <MailOutlined />
           <span>欢迎</span>
         </a-menu-item>
@@ -113,7 +113,7 @@ export default defineComponent({
 
     const handleClick = (value: any) => {
       // console.log("menu click", value)
-      if (value.key === 'welcome') {
+      if (value.key === 'welcome') { //这个welcome指的是显示的div的class名
         isShowWelcome.value = true;
       } else {
         categoryId2 = value.key;
