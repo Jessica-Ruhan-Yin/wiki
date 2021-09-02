@@ -40,9 +40,8 @@ public class UserService {
         UserExample userExample = new UserExample();
         UserExample.Criteria criteria = userExample.createCriteria();
         if (!ObjectUtils.isEmpty(req.getLoginName())) {
-            criteria.andNameLike("%" + req.getLoginName() + "%");
+            criteria.andLoginNameEqualTo(req.getLoginName());
         }
-
         PageHelper.startPage(req.getPage(), req.getSize());
         List<User> userList = userMapper.selectByExample(userExample);
 
@@ -85,7 +84,7 @@ public class UserService {
         }
     }
 
-    public void delete(Long id){
+    public void delete(Long id) {
         userMapper.deleteByPrimaryKey(id);
     }
 }

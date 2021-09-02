@@ -22,6 +22,6 @@ public class UserQueryReq extends PageReq {
     public String toString() {
         return "UserQueryReq{" +
                 "loginName='" + loginName + '\'' +
-                '}';
+                "} " + super.toString();
     }
 }
