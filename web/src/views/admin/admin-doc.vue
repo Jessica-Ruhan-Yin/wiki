@@ -269,7 +269,7 @@ export default defineComponent({
      * 内容查询
      **/
     const handleQueryContent = () => {
-      axios.get("/doc/find-content" + doc.value.id).then((response) => {
+      axios.get("/doc/find-content/" + doc.value.id).then((response) => {
         const data = response.data;
         if (data.success) {
           editor.txt.html(data.content)
