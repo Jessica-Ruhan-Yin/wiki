@@ -6,7 +6,7 @@
           :style="{ height: '100%', borderRight: 0 }"
           @click="handleClick"
       >
-        <a-menu-item key="wel">
+        <a-menu-item key="welcome">
           <MailOutlined />
           <span>欢迎</span>
         </a-menu-item>
