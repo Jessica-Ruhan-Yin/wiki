@@ -46,6 +46,11 @@
         </template>
         <template v-slot:action="{ text, record }">
           <a-space size="small"> <!--空格组件，两个button之间要有空格-->
+            <router-link to="/admin/doc">
+              <a-button type="primary">
+                文档管理
+              </a-button>
+            </router-link>
             <a-button type="primary" @click="edit(record)">
               编辑
             </a-button>
@@ -205,8 +210,8 @@ export default defineComponent({
           handleQuery({
             page: pagination.value.current,
             size: pagination.value.pageSize,
-          //  前面的page和size是传回后端的参数，必须和后端pageReq对应
-          //  后面的current和pageSize是pagination的属性名
+            //  前面的page和size是传回后端的参数，必须和后端pageReq对应
+            //  后面的current和pageSize是pagination的属性名
           });
         } else {
           message.error(data.message);
