@@ -81,11 +81,21 @@
               <a-input v-model:value="doc.sort" placeholder="顺序"/>
             </a-form-item>
             <a-form-item>
+              <a-button type="primary" @click="handlePreviewContent()">
+                <EyeOutlined/>
+                内容预览
+              </a-button>
+            </a-form-item>
+            <a-form-item>
               <div id="content"></div>
             </a-form-item>
           </a-form>
         </a-col>
       </a-row>
+
+      <a-drawer width="900" placement="right" :closable="false" :visible="drawerVisible" @close="onDrawerClose">
+        <div class="wangeditor" :innerHTML="previewHtml"></div>
+      </a-drawer>
 
     </a-layout-content>
   </a-layout>
@@ -153,7 +163,7 @@ export default defineComponent({
      * }]
      */
     const level1 = ref(); // 一级文档树，children属性就是二级文档
-    level1.value=[];
+    level1.value = [];
 
     /**
      * 数据查询
@@ -176,7 +186,7 @@ export default defineComponent({
           //父文档下拉框初始化，相当于点击新增
           treeSelectData.value = Tool.copy(level1.value);
           //为选择树添加一个”无“
-          treeSelectData.value.unshift({id:0,name:'无'});
+          treeSelectData.value.unshift({id: 0, name: '无'});
         } else {
           message.error(data.message);
         }
@@ -207,6 +217,18 @@ export default defineComponent({
           message.error(data.message);
         }
       });
+    };
+
+    // ----------------富文本预览--------------
+    const drawerVisible = ref(false);
+    const previewHtml = ref();
+    const handlePreviewContent = () => {
+      const html = editor.txt.html();
+      previewHtml.value = html;
+      drawerVisible.value = true;
+    };
+    const onDrawerClose = () => {
+      drawerVisible.value = false;
     };
 
     //递归算法，在选择父文档时用来禁选
@@ -363,7 +385,11 @@ export default defineComponent({
 
       handleDelete,
 
-      treeSelectData
+      treeSelectData,
+      drawerVisible,
+      previewHtml,
+      handlePreviewContent,
+      onDrawerClose
     }
   }
 });
