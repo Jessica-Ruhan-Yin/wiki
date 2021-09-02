@@ -37,6 +37,7 @@ public class DocService {
     private SnowFlake snowFlake;
 
     public PageResp<DocQueryResp> list(DocQueryReq req) {
+        //根据某一个特定条件查询就按这种方式写 example + criteria
         DocExample docExample = new DocExample();
         docExample.setOrderByClause("sort asc");
         DocExample.Criteria criteria = docExample.createCriteria();
@@ -93,5 +94,15 @@ public class DocService {
 
     public void delete(Long id){
         docMapper.deleteByPrimaryKey(id);
+    }
+
+    //增加一个重载方法
+    public void delete(List<String> ids){
+        //new一个Example
+        DocExample docExample = new DocExample();
+        //创建一个条件
+        DocExample.Criteria criteria = docExample.createCriteria();
+        criteria.andIdIn(ids);
+        docMapper.deleteByExample(docExample);
     }
 }
