@@ -90,7 +90,9 @@ public class UserService {
             }
         } else {
             // 更新
-            userMapper.updateByPrimaryKey(user);
+            //用户名只能增加不能修改
+            user.setLoginName(null);
+            userMapper.updateByPrimaryKeySelective(user);
         }
     }
 
