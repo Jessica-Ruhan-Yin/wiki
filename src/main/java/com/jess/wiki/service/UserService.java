@@ -8,6 +8,7 @@ import com.jess.wiki.domain.User;
 import com.jess.wiki.domain.UserExample;
 import com.jess.wiki.mapper.UserMapper;
 import com.jess.wiki.req.UserQueryReq;
+import com.jess.wiki.req.UserResetPasswordReq;
 import com.jess.wiki.req.UserSaveReq;
 import com.jess.wiki.resp.UserQueryResp;
 import com.jess.wiki.resp.PageResp;
@@ -79,11 +80,11 @@ public class UserService {
         User user = CopyUtil.copy(req, User.class);
         if (ObjectUtils.isEmpty(req.getId())) {
             User userDB = selectByLoginName(req.getLoginName());
-            if(ObjectUtils.isEmpty(userDB)) {
+            if (ObjectUtils.isEmpty(userDB)) {
                 // 新增
                 user.setId(snowFlake.nextId());
                 userMapper.insert(user);
-            }else{
+            } else {
                 //用户名已存在
                 throw new BusinessException(BusinessExceptionCode.USER_LOGIN_NAME_EXIST);
             }
@@ -110,5 +111,13 @@ public class UserService {
         } else {
             return userList.get(0);
         }
+    }
+
+    /**
+     * 重置密码
+     */
+    public void resetPassword(UserResetPasswordReq req) {
+        User user = CopyUtil.copy(req, User.class);
+        userMapper.updateByPrimaryKeySelective(user);
     }
 }

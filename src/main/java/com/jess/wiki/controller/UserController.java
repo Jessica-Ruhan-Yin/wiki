@@ -1,6 +1,7 @@
 package com.jess.wiki.controller;
 
 import com.jess.wiki.req.UserQueryReq;
+import com.jess.wiki.req.UserResetPasswordReq;
 import com.jess.wiki.req.UserSaveReq;
 import com.jess.wiki.resp.CommonResp;
 import com.jess.wiki.resp.UserQueryResp;
@@ -47,6 +48,15 @@ public class UserController {
     public CommonResp delete(@PathVariable Long id) {
         CommonResp resp = new CommonResp<>();
         userService.delete(id);
+        return resp;
+    }
+
+    @PostMapping("/reset-password")
+    public CommonResp resetPassword(@Valid @RequestBody UserResetPasswordReq req) {
+        //十六进制MD5 加密密码
+        req.setPassword(DigestUtils.md5DigestAsHex(req.getPassword().getBytes()));
+        CommonResp resp = new CommonResp<>();
+        userService.resetPassword(req);
         return resp;
     }
 }
