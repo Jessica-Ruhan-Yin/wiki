@@ -1,9 +1,11 @@
 package com.jess.wiki.controller;
 
+import com.jess.wiki.req.UserLoginReq;
 import com.jess.wiki.req.UserQueryReq;
 import com.jess.wiki.req.UserResetPasswordReq;
 import com.jess.wiki.req.UserSaveReq;
 import com.jess.wiki.resp.CommonResp;
+import com.jess.wiki.resp.UserLoginResp;
 import com.jess.wiki.resp.UserQueryResp;
 import com.jess.wiki.resp.PageResp;
 import com.jess.wiki.service.UserService;
@@ -57,6 +59,16 @@ public class UserController {
         req.setPassword(DigestUtils.md5DigestAsHex(req.getPassword().getBytes()));
         CommonResp resp = new CommonResp<>();
         userService.resetPassword(req);
+        return resp;
+    }
+
+    @PostMapping("/login")
+    public CommonResp login(@Valid @RequestBody UserLoginReq req) {
+        //十六进制MD5 加密密码
+        req.setPassword(DigestUtils.md5DigestAsHex(req.getPassword().getBytes()));
+        CommonResp<UserLoginResp> resp = new CommonResp<>();
+        UserLoginResp userLoginResp = userService.login(req);
+        resp.setContent(userLoginResp);
         return resp;
     }
 }
