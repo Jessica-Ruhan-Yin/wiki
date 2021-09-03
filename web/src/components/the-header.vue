@@ -18,7 +18,7 @@
       <a-menu-item key="/admin/category" :style="user.id? {} : {display:'none'}">
         <router-link to="/admin/category">分类管理</router-link>
       </a-menu-item>
-      <a-menu-item key="/about">
+      <a-menu-item key="/about" :style="user.id? {} : {display:'inline'}">
         <router-link to="/about">关于我们</router-link>
       </a-menu-item>
       <a-popconfirm
