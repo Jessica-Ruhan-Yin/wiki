@@ -40,7 +40,7 @@ public class ControllerExceptionHandler {
     }
 
     /**
-     * 校验异常统一处理
+     * 业务统一处理
      * @param e
      * @return
      */
@@ -55,7 +55,7 @@ public class ControllerExceptionHandler {
     }
 
     /**
-     * 校验异常统一处理
+     * 其他异常
      * @param e
      * @return
      */
