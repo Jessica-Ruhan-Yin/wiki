@@ -22,7 +22,7 @@ public class EbookSnapshotService {
     private EbookSnapshotMapperCust ebookSnapshotMapperCust;
 
     public void genSnapshot() {
-        ebookSnapshotMapperCust.genSnapshot();
+        ebookSnapshotMapperCust.getSnapshot();
     }
 
     public List<StatisticResp> getStatistic() {

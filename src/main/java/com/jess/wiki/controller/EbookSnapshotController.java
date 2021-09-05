@@ -18,7 +18,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/ebook-snapshot")
-public class EbookSanpshotController {
+public class EbookSnapshotController {
 
     @Resource
     private EbookSnapshotService ebookSnapshotService;

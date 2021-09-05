@@ -11,9 +11,9 @@ import java.util.Date;
 public class StatisticResp {
     private Date date;
 
-    private int view_count;
+    private int viewCount;
 
-    private int vote_count;
+    private int voteCount;
 
     private int viewIncrease;
 
@@ -27,20 +27,20 @@ public class StatisticResp {
         this.date = date;
     }
 
-    public int getView_count() {
-        return view_count;
+    public int getViewCount() {
+        return viewCount;
     }
 
-    public void setView_count(int view_count) {
-        this.view_count = view_count;
+    public void setViewCount(int viewCount) {
+        this.viewCount = viewCount;
     }
 
-    public int getVote_count() {
-        return vote_count;
+    public int getVoteCount() {
+        return voteCount;
     }
 
-    public void setVote_count(int vote_count) {
-        this.vote_count = vote_count;
+    public void setVoteCount(int voteCount) {
+        this.voteCount = voteCount;
     }
 
     public int getViewIncrease() {
@@ -63,8 +63,8 @@ public class StatisticResp {
     public String toString() {
         return "StatisticResp{" +
                 "date=" + date +
-                ", view_count=" + view_count +
-                ", vote_count=" + vote_count +
+                ", viewCount=" + viewCount +
+                ", voteCount=" + voteCount +
                 ", viewIncrease=" + viewIncrease +
                 ", voteIncrease=" + voteIncrease +
                 '}';

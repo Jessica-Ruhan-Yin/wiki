@@ -11,7 +11,7 @@ import java.util.List;
  * @Date 2021/9/5
  */
 public interface EbookSnapshotMapperCust {
-    public void genSnapshot();
+    public void getSnapshot();
 
     List<StatisticResp> getStatistic();
 }

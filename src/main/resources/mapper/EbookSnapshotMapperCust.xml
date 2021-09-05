@@ -13,7 +13,7 @@
     #   更新总阅读数、总点赞数
     #   更新今日阅读数、今日点赞数
     -->
-    <update id="genSnapshot">
+    <update id="getSnapshot">
         insert into ebook_snapshot(ebook_id, `date`, view_count, vote_count, view_increase, vote_increase)
         select t1.id, curdate(), 0, 0, 0, 0
         from ebook t1
