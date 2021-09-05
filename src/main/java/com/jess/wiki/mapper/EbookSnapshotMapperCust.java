@@ -1,5 +1,9 @@
 package com.jess.wiki.mapper;
 
+import com.jess.wiki.resp.StatisticResp;
+
+import java.util.List;
+
 /**
  * @Description
  * @Author Jessica
@@ -8,4 +12,6 @@ package com.jess.wiki.mapper;
  */
 public interface EbookSnapshotMapperCust {
     public void genSnapshot();
+
+    List<StatisticResp> getStatistic();
 }

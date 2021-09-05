@@ -1,9 +1,12 @@
 package com.jess.wiki.service;
 
 import com.jess.wiki.mapper.EbookSnapshotMapperCust;
+import com.jess.wiki.resp.StatisticResp;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
+
 /**
  * @Description
  * @Author Jessica
@@ -22,4 +25,7 @@ public class EbookSnapshotService {
         ebookSnapshotMapperCust.genSnapshot();
     }
 
+    public List<StatisticResp> getStatistic() {
+        return ebookSnapshotMapperCust.getStatistic();
+    }
 }
