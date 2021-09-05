@@ -2,6 +2,8 @@ package com.jess.wiki.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.jess.wiki.Exception.BusinessException;
+import com.jess.wiki.Exception.BusinessExceptionCode;
 import com.jess.wiki.domain.Content;
 import com.jess.wiki.domain.Doc;
 import com.jess.wiki.domain.DocExample;
@@ -13,6 +15,8 @@ import com.jess.wiki.req.DocSaveReq;
 import com.jess.wiki.resp.DocQueryResp;
 import com.jess.wiki.resp.PageResp;
 import com.jess.wiki.util.CopyUtil;
+import com.jess.wiki.util.RedisUtil;
+import com.jess.wiki.util.RequestContext;
 import com.jess.wiki.util.SnowFlake;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +49,9 @@ public class DocService {
     @Resource
     private SnowFlake snowFlake;
 
+    @Resource
+    private RedisUtil redisUtil;
+
     public PageResp<DocQueryResp> list(DocQueryReq req) {
         //根据某一个特定条件查询就按这种方式写 example + criteria
         DocExample docExample = new DocExample();
@@ -56,16 +63,6 @@ public class DocService {
         PageInfo<Doc> pageInfo = new PageInfo<>(docList);
         LOG.info("总行数：{}", pageInfo.getTotal());
         LOG.info("总页数：{}", pageInfo.getPages());
-
-        // List<DocResp> respList = new ArrayList<>();
-        // for (Doc doc : docList) {
-        //     // DocResp docResp = new DocResp();
-        //     // BeanUtils.copyProperties(doc, docResp);
-        //     // 对象复制
-        //     DocResp docResp = CopyUtil.copy(doc, DocResp.class);
-        //
-        //     respList.add(docResp);
-        // }
 
         // 列表复制
         List<DocQueryResp> list = CopyUtil.copyList(docList, DocQueryResp.class);
@@ -139,6 +136,13 @@ public class DocService {
 
     //点赞
     public void vote(Long id){
-        docMapperCust.increaseVoteCount(id);
+        //docMapperCust.increaseVoteCount(id);
+        // 远程IP+doc.id作为key，24小时内不能重复
+        String ip = RequestContext.getRemoteAddr();
+        if (redisUtil.validateRepeat("DOC_VOTE_" + id + "_" + ip, 3600 * 24)) {
+            docMapperCust.increaseVoteCount(id);
+        } else {
+            throw new BusinessException(BusinessExceptionCode.VOTE_REPEAT);
+        }
     }
 }
