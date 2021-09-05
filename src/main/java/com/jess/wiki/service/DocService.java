@@ -18,6 +18,7 @@ import com.jess.wiki.util.CopyUtil;
 import com.jess.wiki.util.RedisUtil;
 import com.jess.wiki.util.RequestContext;
 import com.jess.wiki.util.SnowFlake;
+import com.jess.wiki.websocket.WebSocketServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -51,6 +52,9 @@ public class DocService {
 
     @Resource
     private RedisUtil redisUtil;
+
+    @Resource
+    private WebSocketServer webSocketServer;
 
     public PageResp<DocQueryResp> list(DocQueryReq req) {
         //根据某一个特定条件查询就按这种方式写 example + criteria
@@ -144,6 +148,9 @@ public class DocService {
         } else {
             throw new BusinessException(BusinessExceptionCode.VOTE_REPEAT);
         }
+        //推送消息
+        Doc docDB = docMapper.selectByPrimaryKey(id);
+        webSocketServer.sendInfo("【"+docDB.getName()+"】"+"被点赞！");
     }
 
     public void updateEbookInfo(){

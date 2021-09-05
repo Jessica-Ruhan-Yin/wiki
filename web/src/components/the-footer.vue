@@ -1,17 +1,18 @@
 <template>
   <a-layout-footer style="text-align: center">
-    Ssica电子书<span v-show="user.id">，欢迎{{user.name}}</span>
+    Ssica电子书<span v-show="user.id">，欢迎{{ user.name }}</span>
   </a-layout-footer>
 </template>
 
 <script lang="ts">
-import {computed, defineComponent,onMounted} from 'vue';
+import {computed, defineComponent, onMounted} from 'vue';
 import store from "@/store";
 import {Tool} from "@/util/tool";
+import {notification} from "ant-design-vue";
 
 export default defineComponent({
   name: 'the-footer',
-  setup(){
+  setup() {
     const user = computed(() => store.state.user);
 
     let websocket: any;
@@ -21,6 +22,10 @@ export default defineComponent({
     };
     const onMessage = (event: any) => {
       console.log('WebSocket收到消息：', event.data);
+      notification['success']({
+        message: '收到消息',
+        description: event.data,
+      });
     };
     const onError = () => {
       console.log('WebSocket连接错误，状态码：', websocket.readyState)
@@ -54,7 +59,7 @@ export default defineComponent({
       }
     });
 
-    return{
+    return {
       user
     }
   }
