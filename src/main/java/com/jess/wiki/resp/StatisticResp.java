@@ -1,5 +1,7 @@
 package com.jess.wiki.resp;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 /**
@@ -9,6 +11,7 @@ import java.util.Date;
  * @Date 2021/9/5
  */
 public class StatisticResp {
+    @JsonFormat(pattern="MM-dd", timezone = "GMT+8")
     private Date date;
 
     private int viewCount;
