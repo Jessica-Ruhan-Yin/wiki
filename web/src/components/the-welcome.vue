@@ -22,7 +22,7 @@
               <a-statistic title="点赞率" :value="statistic.voteCount / statistic.viewCount * 100"
                            :precision="2"
                            suffix="%"
-                           :value-style="{ color: '#ff616c' }">
+                           :value-style="{ color: '#ff4957' }">
                 <template #suffix>
                   <like-outlined/>
                 </template>
@@ -75,7 +75,7 @@
                   :precision="2"
                   suffix="%"
                   class="demo-class"
-                  :value-style="statistic.todayViewIncreaseRate < 0 ? { color: '#81c444' } : { color: '#b96b85' }"
+                  :value-style="statistic.todayViewIncreaseRate < 0 ? { color: '#81c444' } : { color: '#ff7f88' }"
               >
                 <template #prefix>
                   <arrow-down-outlined v-if="statistic.todayViewIncreaseRate < 0"/>
