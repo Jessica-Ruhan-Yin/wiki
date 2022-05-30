@@ -9,7 +9,7 @@ A personal knowledge base system that stores personal files and presents public 
 ## Environments
 jdk1.8
 ideaIU
-Gitxe
+Git
 mysql8.0
 
 ## Code installation
