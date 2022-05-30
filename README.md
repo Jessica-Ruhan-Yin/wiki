@@ -5,13 +5,6 @@ A personal knowledge base system that stores personal files and presents public 
 <img src='https://ukhn-admin.oss-cn-hongkong.aliyuncs.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220530135639.png?versionId=CAEQMRiBgMC01pnOiBgiIDk4MzllMTA4MjQwNzRkYjA4ZWI4YTg3MTAyZTNkYTAy' width=800px/></br>
 <img src='https://ukhn-admin.oss-cn-hongkong.aliyuncs.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220530141036.png?versionId=CAEQMRiBgIDfuq3OiBgiIDE2NzE4Y2U2MjI0ZDRjMzE4YWQ5NmVmMGE2OThiYjA1' width=800px/></br>          
 
-
-## Environments
-jdk1.8
-ideaIU
-Git
-mysql8.0
-
 ## Code installation
 ```
 https://github.com/littlelittleJessica/wiki.git
